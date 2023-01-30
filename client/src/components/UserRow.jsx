@@ -4,15 +4,15 @@ import Checkbox from "@mui/material/Checkbox";
 import {useDispatch} from "react-redux";
 import {setSelectedUser} from "../redux/users/usersSlice";
 import {useFindTeamByIdMutation} from "../redux/teams/teamsApiSlice";
-import {useGetLigaByIdMutation} from "../redux/ligas/ligasApiSlice";
+import {useGetLeagueByIdMutation} from "../redux/leagues/leaguesApiSlice";
 
 const UserRow = ({data, isSelected}) => {
     const dispatch = useDispatch()
     const handleSelectUser = (id) => dispatch(setSelectedUser(id))
     const [team, setTeam] = useState('-')
-    const [liga, setLiga] = useState('-')
+    const [league, setLeague] = useState('-')
     const [findTeamById] = useFindTeamByIdMutation()
-    const [findLigaById] = useGetLigaByIdMutation()
+    const [findLeagueById] = useGetLeagueByIdMutation()
     useEffect(()=>{
         const getTeam = async ()=>{
             if(data.teamId!=='0'){
@@ -23,17 +23,17 @@ const UserRow = ({data, isSelected}) => {
             }
 
         }
-        const getLiga = async ()=>{
-            console.log(data.ligaId)
-            if(data.ligaId!=='0'){
+        const getLeague = async ()=>{
+            console.log(data.leagueId)
+            if(data.leagueId!=='0'){
                 console.log(data.teamId)
-                const res = await findLigaById({ligaId:data.ligaId})
-                setLiga(res.data.liga.name)
+                const res = await findLeagueById({leagueId:data.leagueId})
+                setLeague(res.data.league.name)
                 console.log(res.data)
             }
 
         }
-        getLiga()
+        getLeague()
         getTeam()
     },[])
     return (
@@ -45,7 +45,7 @@ const UserRow = ({data, isSelected}) => {
             <TableCell align="center">{data.status ? "Опублікований" : 'Не Опублікований'}</TableCell>
             <TableCell align="center">{data.role}</TableCell>
             <TableCell align="center">{team}</TableCell>
-            <TableCell align="center">{liga}</TableCell>
+            <TableCell align="center">{league}</TableCell>
         </TableRow>
     );
 };

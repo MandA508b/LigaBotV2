@@ -1,7 +1,7 @@
 const advertisementService  = require('../services/advertisement.service')
 const cityService  = require('../services/city.service')
 const ApiError = require('../errors/api.error')
-const Leage = require('../../models/liga.model')
+const Leage = require('../../models/league.model')
 const {Telegraf} = require("telegraf");
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 

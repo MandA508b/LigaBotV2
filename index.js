@@ -55,7 +55,7 @@ bot.hears('Канали', async (ctx)=>{
     }
 
     const user = await userService.getUserByTelegramId(ctx.update.message.from.id)
-    const channels = await channelService.getAllByLeagueId(user.ligaId)
+    const channels = await channelService.getAllByLeagueId(user.leagueId)
     let channelsList = 'Ваші канали:\n'
     for (let channelsKey in channels) {
         channelsList += `${channels[channelsKey].URL}\n`

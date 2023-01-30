@@ -9,7 +9,7 @@ const schema = new db.Schema({
         type: String,
         required: true
     },
-    ligaId: {
+    leagueId: {
         type: db.Schema.Types.ObjectId,
         required: true
     }

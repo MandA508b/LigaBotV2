@@ -3,20 +3,20 @@ const User = require("../../models/user.model");
 
 class teamController{
 
-    async findByLigaId(ligaId){
-        const teams = Team.findAll({ligaId})
+    async findByLeagueId(leagueId){
+        const teams = Team.findAll({leagueId})
         return teams
     }
-    async findTeamsByLigaId(ligaId){
-        const teams = await Team.find({ligaId})
+    async findTeamsByLeagueId(leagueId){
+        const teams = await Team.find({leagueId})
         return teams
     }
     async findTeamById(id){
         const team = await Team.findById(id)
         return team
     }
-    async create(name, ligaId){
-        const team = await Team.create({name, ligaId})
+    async create(name, leagueId){
+        const team = await Team.create({name, leagueId})
 
         return team
     }

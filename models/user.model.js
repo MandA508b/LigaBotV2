@@ -30,7 +30,7 @@ const schema = new db.Schema({
         type: db.Schema.Types.ObjectId,
         default: "000000000000000000000000"
     },
-    ligaId: {
+    leagueId: {
         type: db.Schema.Types.ObjectId,
         default: "000000000000000000000000"
     },

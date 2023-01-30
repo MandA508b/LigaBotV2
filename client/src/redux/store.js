@@ -2,7 +2,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
 import {apiSlice} from "./apiSlice";
 import usersReducer from './users/usersSlice'
-import ligasReducer from './ligas/ligasSlice'
+import leaguesReducer from './leagues/leaguesSlice'
 import cityReducer from './city/citySlice'
 import teamReducer from './teams/teamsSlice'
 import channelReducer from './channel/channelSlice'
@@ -12,7 +12,7 @@ export const store = configureStore({
         [apiSlice.reducerPath]: apiSlice.reducer,
         users: usersReducer,
         auth: authReducer,
-        ligas: ligasReducer,
+        leagues: leaguesReducer,
         teams:teamReducer,
         city:cityReducer,
         channel:channelReducer,

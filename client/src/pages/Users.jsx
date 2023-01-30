@@ -16,23 +16,23 @@ import {useFetchAllUsersQuery, useUpdateUsersMutation} from "../redux/users/user
 import React, {useEffect, useState} from "react";
 import {useFetchAllTeamsQuery} from "../redux/teams/teamsApiSlice";
 import {selectCurrentTeams, setTeams} from "../redux/teams/teamsSlice";
-import {selectCurrentLigas, setLigas} from "../redux/ligas/ligasSlice";
-import {useFetchAllLigasQuery} from "../redux/ligas/ligasApiSlice";
+import {selectCurrentLeagues, setLeagues} from "../redux/leagues/leaguesSlice";
+import {useFetchAllLeaguesQuery} from "../redux/leagues/leaguesApiSlice";
 function refreshPage() {
     window.location.reload(false);
 }
 function Users() {
-    const {data:ligaData, isSuccess:ligaIsSuccess, isLoading:ligaIsLoading} = useFetchAllLigasQuery()
+    const {data:leagueData, isSuccess:leagueIsSuccess, isLoading:leagueIsLoading} = useFetchAllLeaguesQuery()
 
     useEffect(() => {
-        if (ligaIsSuccess) {
-            dispatch(setLigas(ligaData.teams))
-            console.log(ligaData.teams)
+        if (leagueIsSuccess) {
+            dispatch(setLeagues(leagueData.teams))
+            console.log(leagueData.teams)
         }
-    }, [ligaData])
+    }, [leagueData])
     const {data:teamData, isSuccess:isTeamSuccess, isLoading:isTeamLoading} = useFetchAllTeamsQuery()
     const teams = useSelector(selectCurrentTeams)
-    const ligas = useSelector(selectCurrentLigas)
+    const leagues = useSelector(selectCurrentLeagues)
 
     useEffect(() => {
         if (isTeamSuccess) {
@@ -81,11 +81,11 @@ function Users() {
         await updateUsers({userData})
         refreshPage()
     }
-    const handleChangeLiga = async (e) => {
+    const handleChangeLeague = async (e) => {
         let userData = []
         selectedUsers.forEach(id => {
             const user = users.find(user => user._id === id)
-            userData.push({userId: user._id, updateData: {...user, ligaId: e.target.value}})
+            userData.push({userId: user._id, updateData: {...user, leagueId: e.target.value}})
         })
         await updateUsers({userData})
         refreshPage()
@@ -155,12 +155,12 @@ function Users() {
                         </ListItem>
                         <ListItem>
                             <Stack>
-                                <Typography fontSize={10} color={'grey'}>Select New Liga</Typography>
+                                <Typography fontSize={10} color={'grey'}>Select New League</Typography>
                                 <Select defaultValue={''} sx={{width: "120px"}}
-                                        onChange={handleChangeLiga}>
+                                        onChange={handleChangeLeague}>
                                     {
-                                        ligas?.map(liga =>
-                                            <MenuItem key={liga._id} value={liga._id}>{liga.name}</MenuItem>
+                                        leagues?.map(league =>
+                                            <MenuItem key={league._id} value={league._id}>{league.name}</MenuItem>
                                         )
                                     }
                                 </Select>
@@ -201,7 +201,7 @@ function Users() {
                             <TableCell align="center">Status</TableCell>
                             <TableCell align="center">Role</TableCell>
                             <TableCell align="center">Team</TableCell>
-                            <TableCell align="center">Liga</TableCell>
+                            <TableCell align="center">League</TableCell>
                         </TableRow>
 
                     </TableHead>

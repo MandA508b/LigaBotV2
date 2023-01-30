@@ -19,5 +19,5 @@ const schema = new db.Schema({
     }
 })
 
-module.exports = db.model('Liga', schema)
+module.exports = db.model('League', schema)
 

@@ -4,11 +4,11 @@ const ApiError = require(`../errors/api.error`)
 class teamController{
     async create(req, res, next){
         try{
-            const {name, ligaId} = req.body
-            if(!name || !ligaId){
-                return next(ApiError.badRequest('!name || !ligaId'))
+            const {name, leagueId} = req.body
+            if(!name || !leagueId){
+                return next(ApiError.badRequest('!name || !leagueId'))
             }
-            const team = await teamService.create(name, ligaId)
+            const team = await teamService.create(name, leagueId)
 
             return res.json({team})
         }catch (e) {
@@ -29,13 +29,13 @@ class teamController{
             next(e)
         }
     }
-    async findByLigaId(req, res, next){
+    async findByLeagueId(req, res, next){
         try{
-            const {ligaId} = req.body
-            if(!ligaId){
-                return next(ApiError.badRequest('!ligaId'))
+            const {leagueId} = req.body
+            if(!leagueId){
+                return next(ApiError.badRequest('!leagueId'))
             }
-            const team = await teamService.findByLigaId( ligaId)
+            const team = await teamService.findByLeagueId( leagueId)
 
             return res.json({team})
         }catch (e) {
@@ -44,13 +44,13 @@ class teamController{
     }
 
 
-    async findTeamsByLigaId(req, res, next){
+    async findTeamsByLeagueId(req, res, next){
         try{
-            const {ligaId} = req.body
-            if(!ligaId){
-                return next(ApiError.badRequest('!ligaId'))
+            const {leagueId} = req.body
+            if(!leagueId){
+                return next(ApiError.badRequest('!leagueId'))
             }
-            const teams = await teamService.findTeamsByLigaId(ligaId)
+            const teams = await teamService.findTeamsByLeagueId(leagueId)
 
             return res.json({teams})
         }catch (e) {

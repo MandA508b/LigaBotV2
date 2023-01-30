@@ -3,7 +3,7 @@ import {useDispatch} from "react-redux";
 import {setSelectedChannel} from "../redux/channel/channelSlice";
 import {TableCell, TableRow} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import {useGetLigaByIdMutation} from "../redux/ligas/ligasApiSlice";
+import {useGetLeagueByIdMutation} from "../redux/leagues/leaguesApiSlice";
 
 
 
@@ -11,13 +11,13 @@ const ChannelRow = ({channel, isSelected}) => {
     const dispatch = useDispatch()
     const [name, setName] = useState('')
 
-    const [getLigaById] = useGetLigaByIdMutation()
+    const [getLeagueById] = useGetLeagueByIdMutation()
 
     useEffect(()=>{
         const getName = async () =>{
-            const ligaName = await getLigaById({ligaId:channel.ligaId})
-            setName(ligaName.data.liga.name)
-            console.log(ligaName)
+            const leagueName = await getLeagueById({leagueId:channel.leagueId})
+            setName(leagueName.data.league.name)
+            console.log(leagueName)
         }
         getName()
     },[])

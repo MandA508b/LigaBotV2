@@ -31,9 +31,9 @@ export const teamsApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags:["Teams"]
         }),
-        findTeamsByLigaId: build.mutation({
+        findTeamsByLeagueId: build.mutation({
             query:body=>({
-                url:'/teams/findTeamsByLigaId',
+                url:'/teams/findTeamsByLeagueId',
                 method:"POST",
                 body
             })
@@ -48,4 +48,4 @@ export const teamsApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {useFetchAllTeamsQuery, useCreateTeamMutation,useUpdateTeamMutation, useDeleteTeamMutation, useFindTeamsByLigaIdMutation, useFindTeamByIdMutation} = teamsApiSlice
+export const {useFetchAllTeamsQuery, useCreateTeamMutation,useUpdateTeamMutation, useDeleteTeamMutation, useFindTeamsByLeagueIdMutation, useFindTeamByIdMutation} = teamsApiSlice

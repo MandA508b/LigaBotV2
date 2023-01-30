@@ -5,7 +5,7 @@ import {Outlet, useLocation} from "react-router";
 import {useDispatch} from "react-redux";
 import {logoutUser} from "../redux/auth/authSlice";
 
-const pages = ["users", "teams", 'ligas','city','advertisements','channel']
+const pages = ["users", "teams", 'leagues','city','advertisements','channel']
 const Layout = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()

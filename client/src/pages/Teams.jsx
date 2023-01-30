@@ -25,8 +25,8 @@ import {
 } from "../redux/teams/teamsSlice";
 import Checkbox from "@mui/material/Checkbox";
 import TeamRow from "../components/TeamRow";
-import {useFetchAllLigasQuery} from "../redux/ligas/ligasApiSlice";
-import {selectCurrentLigas, setLigas} from "../redux/ligas/ligasSlice";
+import {useFetchAllLeaguesQuery} from "../redux/leagues/leaguesApiSlice";
+import {selectCurrentLeagues, setLeagues} from "../redux/leagues/leaguesSlice";
 
 function refreshPage() {
     window.location.reload(false);
@@ -38,23 +38,23 @@ const Teams = () => {
 
 
     const {data, isSuccess, isLoading} = useFetchAllTeamsQuery()
-    const {data: ligasData, isSuccess: isLigasSuccess, isLoading: isLigasLoading} = useFetchAllLigasQuery()
+    const {data: leaguesData, isSuccess: isLeaguesSuccess, isLoading: isLeaguesLoading} = useFetchAllLeaguesQuery()
     const dispatch = useDispatch()
     const teams = useSelector(selectCurrentTeams)
     const selectedTeams = useSelector(selectedTeamsId)
-    const ligas = useSelector(selectCurrentLigas)
-    const [ligaId, setLigaId] = useState('')
+    const leagues = useSelector(selectCurrentLeagues)
+    const [leagueId, setLeagueId] = useState('')
     const selectAllTeams = () => dispatch(setAllSelectedTeams())
     useEffect(() => {
         if (isSuccess) {
             dispatch(setTeams(data.teams))
-            setLigaId(data.teams[0]?._id || 'none')
+            setLeagueId(data.teams[0]?._id || 'none')
         }
 
     }, [data])
     useEffect(() => {
-        if (isLigasSuccess) {
-            dispatch(setLigas(ligasData.teams))
+        if (isLeaguesSuccess) {
+            dispatch(setLeagues(leaguesData.teams))
         }
     })
     const [updateTeam] = useUpdateTeamMutation()
@@ -73,13 +73,13 @@ const Teams = () => {
         })
     }
     const handleCreate = async () => {
-        console.log(ligaId, name)
-        if (!!name.length || !!ligaId.length) await createTeam({name, ligaId})
+        console.log(leagueId, name)
+        if (!!name.length || !!leagueId.length) await createTeam({name, leagueId})
     }
-    const handleChangeLiga = async (e) => {
+    const handleChangeLeague = async (e) => {
         selectedTeams.forEach(async id => {
             const team = teams.find(team => team._id === id)
-            await updateTeam({teamId: team._id, data: {...team, ligaId: e.target.value}})
+            await updateTeam({teamId: team._id, data: {...team, leagueId: e.target.value}})
             refreshPage()
         })
     }
@@ -93,7 +93,7 @@ const Teams = () => {
         }
     }
 
-    if (!isSuccess || isLoading || !isLigasSuccess || isLigasLoading) return <Typography
+    if (!isSuccess || isLoading || !isLeaguesSuccess || isLeaguesLoading) return <Typography
         textAlign={'center'}>Loading</Typography>
 
     return (
@@ -104,12 +104,12 @@ const Teams = () => {
                            justifyContent={'space-between'}>
                         <ListItem>
                             <Stack>
-                                <Typography fontSize={10} color={'grey'}>Select New Liga</Typography>
+                                <Typography fontSize={10} color={'grey'}>Select New League</Typography>
                                 <Select sx={{width: "120px"}}
-                                        onChange={e => handleChangeLiga(e)}>
+                                        onChange={e => handleChangeLeague(e)}>
                                     {
-                                        ligas?.map(liga =>
-                                            <MenuItem key={liga._id} value={liga._id}>{liga.name}</MenuItem>
+                                        leagues?.map(league =>
+                                            <MenuItem key={league._id} value={league._id}>{league.name}</MenuItem>
                                         )
                                     }
                                 </Select>
@@ -155,7 +155,7 @@ const Teams = () => {
                             <TableCell> <Checkbox checked={selectedTeams?.length === teams?.length}
                                                   onClick={() => selectAllTeams()}/></TableCell>
                             <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">Liga</TableCell>
+                            <TableCell align="center">League</TableCell>
                             <TableCell align="center">Status</TableCell>
                         </TableRow>
 
@@ -173,12 +173,12 @@ const Teams = () => {
             <Stack display={'flex'} gap={1} flexDirection={'row'} margin={1} alignItems={'flex-end'}>
                 <TextField label={'Name'} onChange={e => setName(e.target.value)}/>
                 <Stack>
-                    <Typography fontSize={10} color={'grey'}>Select Liga</Typography>
-                    <Select sx={{width: "120px"}} defaultValue={ligaId} value={ligaId}
-                            onChange={e => setLigaId(e.target.value)}>
+                    <Typography fontSize={10} color={'grey'}>Select League</Typography>
+                    <Select sx={{width: "120px"}} defaultValue={leagueId} value={leagueId}
+                            onChange={e => setLeagueId(e.target.value)}>
                         {
-                            ligas?.map(liga =>
-                                <MenuItem key={liga._id} value={liga._id}>{liga.name}</MenuItem>
+                            leagues?.map(league =>
+                                <MenuItem key={league._id} value={league._id}>{league.name}</MenuItem>
                             )
                         }
                     </Select>

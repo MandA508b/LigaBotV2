@@ -3,20 +3,20 @@ import {useDispatch} from "react-redux";
 import {TableCell, TableRow} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import {setSelectedTeam} from "../redux/teams/teamsSlice";
-import {useGetLigaByIdMutation} from "../redux/ligas/ligasApiSlice";
+import {useGetLeagueByIdMutation} from "../redux/leagues/leaguesApiSlice";
 
 const TeamRow = ({team, isSelected}) => {
     const dispatch = useDispatch()
     const handleSelectTeam = (id) => dispatch(setSelectedTeam(id))
     const [name, setName] = useState('')
 
-    const [getLigaById] = useGetLigaByIdMutation()
+    const [getLeagueById] = useGetLeagueByIdMutation()
 
     useEffect(()=>{
         const getName = async () =>{
-            const ligaName = await getLigaById({ligaId:team.ligaId})
-            setName(ligaName.data.liga.name)
-            console.log(ligaName)
+            const leagueName = await getLeagueById({leagueId:team.leagueId})
+            setName(leagueName.data.league.name)
+            console.log(leagueName)
         }
         getName()
     },[])

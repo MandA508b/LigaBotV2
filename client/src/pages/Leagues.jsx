@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {
-    useCreateLigaMutation,
-    useDeleteLigaMutation,
-    useFetchAllLigasQuery,
-    useUpdateLigaMutation
-} from "../redux/ligas/ligasApiSlice";
+    useCreateLeagueMutation,
+    useDeleteLeagueMutation,
+    useFetchAllLeaguesQuery,
+    useUpdateLeagueMutation
+} from "../redux/leagues/leaguesApiSlice";
 import {
     Button,
     ListItem, MenuItem, Select,
@@ -18,67 +18,67 @@ import {
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    selectCurrentLigas,
-    selectedLigasId,
-    setAllSelectedLigas,
-    setLigas
-} from "../redux/ligas/ligasSlice";
+    selectCurrentLeagues,
+    selectedLeaguesId,
+    setAllSelectedLeagues,
+    setLeagues
+} from "../redux/leagues/leaguesSlice";
 import Checkbox from "@mui/material/Checkbox";
-import LigaRow from "../components/LigaRow";
+import LeagueRow from "../components/LeagueRow";
 
-const Ligas = () => {
+const Leagues = () => {
     const [name, setName] = useState("")
     const [level, setLevel] = useState("")
     const [newLevel, setNewLevel] = useState("")
     const [newName, setNewName] = useState('')
-    const {data, isSuccess, isLoading} = useFetchAllLigasQuery()
+    const {data, isSuccess, isLoading} = useFetchAllLeaguesQuery()
     const dispatch = useDispatch()
-    const ligas = useSelector(selectCurrentLigas)
-    const selectedLigas = useSelector(selectedLigasId)
-    const selectAllLigas = () => dispatch(setAllSelectedLigas())
+    const leagues = useSelector(selectCurrentLeagues)
+    const selectedLeagues = useSelector(selectedLeaguesId)
+    const selectAllLeagues = () => dispatch(setAllSelectedLeagues())
     useEffect(() => {
         if (isSuccess) {
             console.log(data)
-            dispatch(setLigas(data.teams))
+            dispatch(setLeagues(data.teams))
             console.log(data.teams)
         }
 
     }, [data])
-    const [updateLiga] = useUpdateLigaMutation()
-    const [deleteLiga] = useDeleteLigaMutation()
-    const [createLiga] = useCreateLigaMutation()
+    const [updateLeague] = useUpdateLeagueMutation()
+    const [deleteLeague] = useDeleteLeagueMutation()
+    const [createLeague] = useCreateLeagueMutation()
     const handlePublish = async (status) => {
-        selectedLigas.forEach(async id => {
-            const liga = ligas.find(liga => liga._id === id)
-            const res = await updateLiga({ligaId: liga._id, data: {...liga, status}}).unwrap()
+        selectedLeagues.forEach(async id => {
+            const league = leagues.find(league => league._id === id)
+            const res = await updateLeague({leagueId: league._id, data: {...league, status}}).unwrap()
             console.log(res)
         })
     }
     const handleDelete = async () => {
-        selectedLigas.forEach(async id => {
-            const liga = ligas.find(liga => liga._id === id)
-            const res = await deleteLiga({ligaId: liga._id}).unwrap()
+        selectedLeagues.forEach(async id => {
+            const league = leagues.find(league => league._id === id)
+            const res = await deleteLeague({leagueId: league._id}).unwrap()
             console.log(res)
         })
     }
     const handleCreate = async () => {
-        if (!!name.length && !!level.length) await createLiga({name, level})
+        if (!!name.length && !!level.length) await createLeague({name, level})
     }
     const handleChangeLevel = async () => {
         if (!!newLevel.length) {
-            selectedLigas.forEach(async id => {
-                const liga = ligas.find(liga => liga._id === id)
-                console.log({ligaId: liga._id, data: {...liga, level: newLevel}})
-                const res = await updateLiga({ligaId: liga._id, data: {...liga, level: newLevel}}).unwrap()
+            selectedLeagues.forEach(async id => {
+                const league = leagues.find(league => league._id === id)
+                console.log({leagueId: league._id, data: {...league, level: newLevel}})
+                const res = await updateLeague({leagueId: league._id, data: {...league, level: newLevel}}).unwrap()
                 console.log(res)
             })
         }
     }
     const handleRename = async ()=>{
         if(!!newName.length){
-            selectedLigas.forEach(async id => {
-                const liga = ligas.find(liga => liga._id === id)
-                const res = await updateLiga({ligaId: liga._id, data: {...liga, name:newName}}).unwrap()
+            selectedLeagues.forEach(async id => {
+                const league = leagues.find(league => league._id === id)
+                const res = await updateLeague({leagueId: league._id, data: {...league, name:newName}}).unwrap()
                 console.log(res)
             })
         }
@@ -88,7 +88,7 @@ const Ligas = () => {
     return (
         <Stack sx={{width: '100vw', height: '100vh'}} display={'flex'} alignItems={'center'} padding={2}>
             {
-                !selectedLigas.length ? null :
+                !selectedLeagues.length ? null :
                     <Stack display={'flex'} alignItems={'center'} flexDirection={'row'} justifyContent={'space-between'} >
                         <ListItem>
                             <Select defaultValue={false} sx={{width: '200px'}}
@@ -128,8 +128,8 @@ const Ligas = () => {
 
                     <TableHead>
                         <TableRow>
-                            <TableCell> <Checkbox checked={selectedLigas?.length === ligas?.length}
-                                                  onClick={() => selectAllLigas()}/></TableCell>
+                            <TableCell> <Checkbox checked={selectedLeagues?.length === leagues?.length}
+                                                  onClick={() => selectAllLeagues()}/></TableCell>
                             <TableCell variant={'head'} size={'small'} align="center">Name</TableCell>
                             <TableCell variant={'head'} size={'small'} align="center">Level</TableCell>
                             <TableCell variant={'head'} size={'small'} align="center">Status</TableCell>
@@ -141,8 +141,8 @@ const Ligas = () => {
                     <TableBody>
                         {
 
-                            ligas.map(liga => <LigaRow liga={liga} isSelected={selectedLigas.includes(liga._id)}
-                                                       key={liga?.name}/>)
+                            leagues.map(league => <LeagueRow league={league} isSelected={selectedLeagues.includes(league._id)}
+                                                       key={league?.name}/>)
 
                         }
                     </TableBody>
@@ -157,4 +157,4 @@ const Ligas = () => {
     );
 };
 
-export default Ligas;
+export default Leagues;

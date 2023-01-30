@@ -28,7 +28,7 @@ class UserController{
             console.log('user does`t exist')
             return false
         }
-        if(user.status && user.ligaId != '000000000000000000000000'){
+        if(user.status && user.leagueId != '000000000000000000000000'){
             return true
         }
         return false

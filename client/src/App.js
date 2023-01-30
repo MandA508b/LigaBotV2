@@ -4,7 +4,7 @@ import {Route, Routes} from "react-router";
 import Login from "./components/Login";
 import AuthRequire from "./components/AuthRequire";
 import Teams from "./pages/Teams";
-import Ligas from "./pages/Ligas";
+import Leagues from "./pages/Leagues";
 import Layout from "./components/Layout";
 import City from "./pages/City";
 import Advertisement from "./pages/Advertisement";
@@ -20,7 +20,7 @@ function App() {
                     <Route path={'/users'} element={<Users/>}/>
                     <Route path={'/'} element={<Users/>}/>
                     <Route path={'/teams'} element={<Teams/>}/>
-                    <Route path={'/ligas'} element={<Ligas/>}/>
+                    <Route path={'/leagues'} element={<Leagues/>}/>
                     <Route path={'/city'} element={<City/>}/>
                     <Route path={'/advertisements'} element={<Advertisement/>}/>
                     <Route path={'/channel'} element={<Channel/>}/>
