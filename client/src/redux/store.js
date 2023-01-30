@@ -5,6 +5,7 @@ import usersReducer from './users/usersSlice'
 import ligasReducer from './ligas/ligasSlice'
 import cityReducer from './city/citySlice'
 import teamReducer from './teams/teamsSlice'
+import channelReducer from './channel/channelSlice'
 import advertisementReducer from './advertisement/advertisementSlice'
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         ligas: ligasReducer,
         teams:teamReducer,
         city:cityReducer,
+        channel:channelReducer,
         advertisement:advertisementReducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),

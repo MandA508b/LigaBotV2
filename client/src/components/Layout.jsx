@@ -5,7 +5,7 @@ import {Outlet, useLocation} from "react-router";
 import {useDispatch} from "react-redux";
 import {logoutUser} from "../redux/auth/authSlice";
 
-const pages = ["users", "teams", 'ligas','city']
+const pages = ["users", "teams", 'ligas','city','advertisements','channel']
 const Layout = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -21,7 +21,7 @@ const Layout = () => {
                    justifyContent={"center"} gap={10} width={'100vw'}>
                 {
                     pages.map(page =>
-                        <Link to={page} key={page}>
+                        <Link to={`/${page}`} key={page}>
                             <Typography fontSize={22} textTransform={'capitalize'}
                                         sx={{textDecoration: location.pathname === '/' + page ? "underline" : 'none'}}>
                                 {page}

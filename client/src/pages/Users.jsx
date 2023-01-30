@@ -88,6 +88,9 @@ function Users() {
             userData.push({userId: user._id, updateData: {...user, ligaId: e.target.value}})
         })
         await updateUsers({userData})
+        refreshPage()
+
+
     }
     const handleBlock = async (e) => {
         let userData = []
@@ -153,7 +156,7 @@ function Users() {
                         <ListItem>
                             <Stack>
                                 <Typography fontSize={10} color={'grey'}>Select New Liga</Typography>
-                                <Select defaultValue={ligas[0]?._id} sx={{width: "120px"}}
+                                <Select defaultValue={''} sx={{width: "120px"}}
                                         onChange={handleChangeLiga}>
                                     {
                                         ligas?.map(liga =>

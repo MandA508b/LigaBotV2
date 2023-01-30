@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {logoutUser, setCredentials} from "./auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl:"https://ligabot.onrender.com",
+    baseUrl:"https://ligabotv2.onrender.com",
     credentials: 'include',
     prepareHeaders: (headers,{getState}) =>{
         const token = localStorage.getItem('token')
