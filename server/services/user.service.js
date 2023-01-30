@@ -23,6 +23,12 @@ class UserController{// userData: [{userId: _id, updateData: {..data to update..
         return user
     }
 
+    async getUserByTelegramID(telegramId){
+        const user = await User.findOne({telegramId})
+
+        return user
+    }
+
 }
 
 module.exports = new UserController()

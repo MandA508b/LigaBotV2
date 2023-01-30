@@ -10,6 +10,11 @@ const userService = require('./server/services/user.service')
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 
 bot.start(async (ctx) => {
+    const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
+    if(userAuth.isBlocked){
+        return ctx.reply('Вас заблоковано')
+    }
+
     const registration = await userController.start(ctx.update.message.from)
     if(registration)
         ctx.reply("Вітаю! Ви успішно зареєстровані як користувач!")
@@ -22,6 +27,11 @@ bot.start(async (ctx) => {
 
 
 bot.command('menu', async (ctx) => {
+    const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
+    if(userAuth.isBlocked){
+        return ctx.reply('Вас заблоковано')
+    }
+
     const accessToMenu = await userController.accessToMenu(ctx.update.message.from.id)
 
     if(accessToMenu){
@@ -39,6 +49,11 @@ bot.command('menu', async (ctx) => {
 })
 
 bot.hears('Канали', async (ctx)=>{
+    const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
+    if(userAuth.isBlocked){
+        return ctx.reply('Вас заблоковано')
+    }
+
     const user = await userService.getUserByTelegramId(ctx.update.message.from.id)
     const channels = await channelService.getAllByLeagueId(user.ligaId)
     let channelsList = 'Ваші канали:\n'
@@ -49,6 +64,11 @@ bot.hears('Канали', async (ctx)=>{
 })
 
 bot.hears('Мої оголошення', async (ctx)=> {
+    const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
+    if(userAuth.isBlocked){
+        return ctx.reply('Вас заблоковано')
+    }
+
     const advertisements = await advertisementService.getAllByTelegramId(ctx.update.message.from.id)
 
     for (let advertisementsKey in advertisements) {
