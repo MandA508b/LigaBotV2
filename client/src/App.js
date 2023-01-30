@@ -8,6 +8,7 @@ import Ligas from "./pages/Ligas";
 import Layout from "./components/Layout";
 import City from "./pages/City";
 import Advertisement from "./pages/Advertisement";
+import Channel from "./pages/Channel";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
                     <Route path={'/ligas'} element={<Ligas/>}/>
                     <Route path={'/city'} element={<City/>}/>
                     <Route path={'/advertisements'} element={<Advertisement/>}/>
+                    <Route path={'/channel'} element={<Channel/>}/>
                 </Route>
 
             </Route>
