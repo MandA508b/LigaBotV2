@@ -41,7 +41,7 @@ const Channel = () => {
     useEffect(() => {
         if (isSuccess) {
             console.log(data)
-            dispatch(setChannel(data.cities))
+            dispatch(setChannel(data.channels))
         }
     }, [data])
     const cities = useSelector(selectCurrentChannel)
@@ -124,20 +124,21 @@ const Channel = () => {
                 boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;'
             }}>
                 <Table sx={{minWidth: 150}} aria-label="simple table">
-
                     <TableHead>
                         <TableRow>
                             <TableCell> <Checkbox checked={selectedChannel?.length === cities?.length}
                                                   onClick={() => selectAllChannel()}/></TableCell>
-                            <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">Status</TableCell>
+                            <TableCell align="center">Channel ID</TableCell>
+                            <TableCell align="center">Number</TableCell>
+                            <TableCell align="center">League</TableCell>
+                            <TableCell align="center">URL</TableCell>
                         </TableRow>
-
                     </TableHead>
                     <TableBody>
                         {
-                            cities.map(channel => <ChannelRow channel={channel} isSelected={selectedChannel.includes(channel._id)}
-                                                        key={channel?.name}/>)
+                            cities.map(channel => <ChannelRow channel={channel}
+                                                              isSelected={selectedChannel.includes(channel._id)}
+                                                              key={channel?.name}/>)
 
                         }
                     </TableBody>
