@@ -10,7 +10,7 @@ const schema = new db.Schema({
         required: true
     },
     leagueId: {
-        Type: db.Schema.Types.ObjectId,
+        type: db.Schema.Types.ObjectId,
         required: true
     },
     URL: {

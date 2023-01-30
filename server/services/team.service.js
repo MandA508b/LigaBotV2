@@ -1,4 +1,5 @@
 const Team = require('../../models/team.model')
+const User = require("../../models/user.model");
 
 class teamController{
 
@@ -22,6 +23,7 @@ class teamController{
 
     async delete(teamId){
         const team = await Team.findByIdAndDelete(teamId)
+        await User.updateMany({teamId}, {teamId: "000000000000000000000000"})
 
         return team
     }

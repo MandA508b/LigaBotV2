@@ -19,6 +19,16 @@ class UserController{
         return res.json({user})
     }
 
+    async getUserByTelegramId(req, res, next){
+        const {telegramId} = req.body
+        if(!telegramId){
+            return next(ApiError.badRequest('!telegramId'))
+        }
+        const user = await userService.getUserByTelegramId(telegramId)
+
+        return res.json({user})
+    }
+
 }
 
 module.exports = new UserController()

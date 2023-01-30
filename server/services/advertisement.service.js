@@ -29,7 +29,9 @@ class advertisementController{
     }
 
     async getAllByTelegramId(telegramId){
+        const advertisements = await Advertisement.find({telegramId})
 
+        return advertisements
     }
 
 }

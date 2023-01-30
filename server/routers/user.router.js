@@ -5,5 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware')
 
 router.put('/updateUsers', authMiddleware, userController.updateUsers)
 router.get('/getAllUsers', authMiddleware,  userController.getAllUsers)
+router.post('/getUserByTelegramId', authMiddleware,  userController.getUserByTelegramId)
 
 module.exports = router

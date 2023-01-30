@@ -26,6 +26,12 @@ class channelController{
         return channels
     }
 
+    async getAllByLeagueId(leagueId){
+        const channels = await Channel.find(leagueId)//TODO
+
+        return channels
+    }
+
 }
 
 module.exports = new channelController()
