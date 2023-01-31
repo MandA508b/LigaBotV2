@@ -89,7 +89,8 @@ bot.hears('Мої оголошення', async (ctx)=> {
 })
 
 bot.action('delete', async (ctx) => {
-    await advertisementService.deleteByNumber(Number(ctx.update.callback_query.message.text.split(' ')[1].split('\n')[0].slice(1)))
+    const number = Number(ctx.update.callback_query.message.text.split(' ')[1].split('\n')[0].slice(1))
+    await advertisementService.deleteByNumber(number)
     ctx.telegram.deleteMessage(ctx.update.callback_query.message.chat.id, ctx.update.callback_query.message.message_id)
 })
 
@@ -103,6 +104,8 @@ bot.hears('Додати оголошення', async (ctx)=> {
         Markup.inlineKeyboard([
             Markup.button.webApp('Заповнити', 'https://heroic-profiterole-cc695c.netlify.app')
         ]))
+
+
 })
 
 startServer()

@@ -1,5 +1,5 @@
 const Advertisement = require('../../models/advertisement.model')
-const {configureStore} = require("@reduxjs/toolkit");
+const userService = require('../services/user.service')
 
 class advertisementController{
 
@@ -30,8 +30,8 @@ class advertisementController{
     }
 
     async getAllByTelegramId(telegramId){
-        console.log(telegramId)
-        const advertisements = await Advertisement.find({telegramId})
+        const user = await userService.getUserByTelegramID(telegramId)
+        const advertisements = await Advertisement.find({userId: user._id})
 
         return advertisements
     }
