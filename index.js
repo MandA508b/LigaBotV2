@@ -82,7 +82,7 @@ bot.hears('Мої оголошення', async (ctx)=> {
             `Дійсне до: ${advertisements[advertisementsKey].deadline}\n` +
             `${advertisements[advertisementsKey].extraInfo}`,
             Markup.inlineKeyboard([
-                Markup.button.callback('Редагувати', 'redact'),
+                Markup.button.webApp('Редагувати', `https://heroic-profiterole-cc695c.netlify.app/redact/${advertisements[advertisementsKey]._id}`),
                 Markup.button.callback('Скасувати', 'delete')
             ]))
     }
