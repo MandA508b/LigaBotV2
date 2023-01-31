@@ -33,8 +33,9 @@ class advertisementController{
 
         return advertisements
     }
-    async getById(id){
-        const advertisement = await Advertisement.findById(id)
+    async getById(advertisementId){
+        const advertisement = await Advertisement.findById(advertisementId)
+
         return advertisement
     }
 

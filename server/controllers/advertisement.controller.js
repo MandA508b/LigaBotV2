@@ -72,7 +72,9 @@ class advertisementController{
 
     async findById(req, res, next){
         try{
-            const advertisement = await advertisementService.getById()
+            const {advertisementId} = req.body
+
+            const advertisement = await advertisementService.getById(advertisementId)
 
             return res.json({advertisement})
         }catch (e) {
