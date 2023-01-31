@@ -23,7 +23,7 @@ class advertisementController{
             `Сума: ${advertisement.total}\n`+
             `Частин: ${advertisement.rate}\n`+
             `Ставка: ${advertisement.part}%\n`+
-            `Дійсне до: ${advertisement.deadline.toLocaleDateString("en-US",{ day: "numeric", weekday: "short", hour: "numeric", minute: "numeric"})}\n`+
+            `Дійсне до: ${advertisement.deadline}\n`+
             `${advertisement.extraInfo}`);
 
             return res.json({advertisement})
