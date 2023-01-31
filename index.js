@@ -89,7 +89,7 @@ bot.hears('Мої оголошення', async (ctx)=> {
 })
 
 bot.action('delete', async (ctx) => {
-    const advertisement = await advertisementService.deleteByNumber(Number(ctx.update.callback_query.message.text.split(' ')[1].split('\n')[0].slice(1)))
+    await advertisementService.deleteByNumber(Number(ctx.update.callback_query.message.text.split(' ')[1].split('\n')[0].slice(1)))
     ctx.telegram.deleteMessage(ctx.update.callback_query.message.chat.id, ctx.update.callback_query.message.message_id)
 })
 

@@ -42,9 +42,7 @@ class advertisementController{
     }
 
     async deleteByNumber(number){
-        const advertisement = await Advertisement.deleteOne({number})
-
-        return advertisement
+        await Advertisement.deleteOne({number})
     }
 
 }
