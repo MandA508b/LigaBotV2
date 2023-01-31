@@ -10,10 +10,6 @@ const userService = require('./server/services/user.service')
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 
 bot.start(async (ctx) => {
-    const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
-    if(userAuth.isBlocked){
-        return ctx.reply('Вас заблоковано')
-    }
 
     const registration = await userController.start(ctx.update.message.from)
     if(registration)

@@ -31,8 +31,16 @@ export const channelApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags:["Channel"]
         }),
-        
+        getByLeagueId: build.mutation({
+            query:body=>({
+                url:'/channel/getByLeagueId',
+                method:"PUT",
+                body
+            }),
+            invalidatesTags:["Channel"]
+        }),
+
     })
 })
 
-export const {useFetchAllChannelQuery, useCreateChannelMutation,useUpdateChannelMutation, useDeleteChannelMutation} = channelApiSlice
+export const {useFetchAllChannelQuery, useCreateChannelMutation,useUpdateChannelMutation, useDeleteChannelMutation,useGetByLeagueIdMutation} = channelApiSlice

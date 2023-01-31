@@ -31,6 +31,8 @@ const Leagues = () => {
     const [level, setLevel] = useState("")
     const [newLevel, setNewLevel] = useState("")
     const [newName, setNewName] = useState('')
+    const [channelId, setChannelId] = useState('')
+    const [newChannelId, setNewChannelId] = useState('')
     const {data, isSuccess, isLoading} = useFetchAllLeaguesQuery()
     const dispatch = useDispatch()
     const leagues = useSelector(selectCurrentLeagues)
@@ -62,7 +64,7 @@ const Leagues = () => {
         })
     }
     const handleCreate = async () => {
-        if (!!name.length && !!level.length) await createLeague({name, level})
+        if (!!name.length && !!level.length && !!channelId) await createLeague({name, level,channelId})
     }
     const handleChangeLevel = async () => {
         if (!!newLevel.length) {
@@ -74,6 +76,7 @@ const Leagues = () => {
             })
         }
     }
+
     const handleRename = async ()=>{
         if(!!newName.length){
             selectedLeagues.forEach(async id => {
@@ -113,7 +116,9 @@ const Leagues = () => {
                                 <TextField fullWidth value={newName} onChange={e=>setNewName(e.target.value)} label='New Name'/>
                                 <Button variant={'contained'} onClick={handleRename}>Rename</Button>
                             </Stack>
+
                         </ListItem>
+
                         <ListItem>
                             <Button variant={'contained'} color={'error'} onClick={handleDelete}>Delete</Button>
                         </ListItem>
@@ -133,7 +138,7 @@ const Leagues = () => {
                             <TableCell variant={'head'} size={'small'} align="center">Name</TableCell>
                             <TableCell variant={'head'} size={'small'} align="center">Level</TableCell>
                             <TableCell variant={'head'} size={'small'} align="center">Status</TableCell>
-                            <TableCell variant={'head'} size={'small'} align="center">Channel ID</TableCell>
+                            <TableCell variant={'head'} size={'small'} align="center">Channel URL</TableCell>
                             <TableCell variant={'head'} size={'small'} align="center">Teams</TableCell>
                         </TableRow>
 
@@ -151,6 +156,7 @@ const Leagues = () => {
             <Stack display={'flex'} gap={1} flexDirection={'row'} margin={1}>
                 <TextField label={'Name'} onChange={e => setName(e.target.value)}/>
                 <TextField label={'Level'} onChange={e => setLevel(e.target.value)}/>
+
                 <Button variant={'contained'} onClick={handleCreate}>Create</Button>
             </Stack>
         </Stack>
