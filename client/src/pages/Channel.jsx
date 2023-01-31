@@ -25,26 +25,34 @@ import {
 } from "../redux/channel/channelSlice";
 import Checkbox from "@mui/material/Checkbox";
 import ChannelRow from "../components/ChannelRow";
+import {useFetchAllLeaguesQuery} from "../redux/leagues/leaguesApiSlice";
+import {selectCurrentLeagues, setLeagues} from "../redux/leagues/leaguesSlice";
 
 function refreshPage() {
     window.location.reload(false);
 }
 
 const Channel = () => {
-    const [name, setName] = useState("")
-    const [newName, setNewName] = useState("")
-
-
+    const [channelId, setChannelId] = useState("")
+    const [url,setUrl] = useState('')
+    const [number, setNumber] = useState(1)
+    const {data: leaguesData, isSuccess: isLeaguesSuccess, isLoading: isLeaguesLoading} = useFetchAllLeaguesQuery()
+    const leagues = useSelector(selectCurrentLeagues)
+    const [leagueId, setLeagueId] = useState('')
+    useEffect(() => {
+        if (isLeaguesSuccess) {
+            dispatch(setLeagues(leaguesData.teams))
+        }
+    })
     const {data, isSuccess, isLoading} = useFetchAllChannelQuery()
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (isSuccess) {
-            console.log(data)
             dispatch(setChannel(data.channels))
         }
     }, [data])
-    const cities = useSelector(selectCurrentChannel)
+    const channels = useSelector(selectCurrentChannel)
     const selectedChannel = useSelector(selectedChannelId)
     const selectAllChannel = () => dispatch(setAllSelectedChannel())
 
@@ -52,37 +60,34 @@ const Channel = () => {
     const [updateChannel] = useUpdateChannelMutation()
     const [deleteChannel] = useDeleteChannelMutation()
     const [createChannel] = useCreateChannelMutation()
-    const handlePublish = async (status) => {
-        selectedChannel.forEach(async id => {
-            const channel = cities.find(channel => channel._id === id)
-            await updateChannel({channelId: channel._id, data: {...channel, status}}).unwrap()
-        })
-    }
+
     const handleDelete = async () => {
         selectedChannel.forEach(async id => {
-            const channel = cities.find(channel => channel._id === id)
+            const channel = channels.find(channel => channel._id === id)
             console.log({channelId: channel._id})
             await deleteChannel({channelId: channel._id}).unwrap()
         })
     }
-    const handleCreate = async () => {
-        console.log(name)
-        if (!!name.length) await createChannel({name})
+    const handleChangeLeague = async (e) => {
+        selectedChannel.forEach(async id => {
+            const channel = channels.find(channel => channel._id === id)
+            console.log({channelId: channel._id, data: {...channel, leagueId: e.target.value}})
+            const res = await updateChannel({channelId: channel._id, data: {...channel, leagueId: e.target.value}})
+            //refreshPage()
+            console.log(res)
+        })
     }
-    const handleRename = async () => {
-        if (!!newName.length) {
-            console.log(selectedChannel)
-            selectedChannel.forEach(async id => {
-                const channel = cities.find(channel => channel._id === id)
-                console.log({channelId: channel._id, data: {...channel, name: newName}})
-                const res = await updateChannel({channelId: channel._id, data: {...channel, name: newName}}).unwrap()
-                console.log(res)
-            })
+    const handleCreate = async () => {
+        console.log({URL: url, channelId, number, leagueId})
+        if (!!url.length && !!channelId.length && typeof number === 'number' && !!leagueId.length) {
+            await createChannel({URL: url, channelId, number, leagueId})
+            console.log(true)
         }
     }
 
-    if (!isSuccess || isLoading) return <Typography
-        textAlign={'center'}>Loading</Typography>
+
+    if (!isSuccess || isLoading)
+        return <Typography textAlign={'center'}>Loading</Typography>
 
     return (
         <Stack sx={{width: '100vw', height: '100vh'}} display={'flex'} alignItems={'center'} padding={2}>
@@ -90,29 +95,22 @@ const Channel = () => {
                 !selectedChannel.length ? null :
                     <Stack display={'flex'} alignItems={'flex-end'} flexDirection={'row'}
                            justifyContent={'space-between'}>
-
-
-                        <ListItem>
-                            <Select defaultValue={false} sx={{width: '200px'}}
-                                    onChange={(e) => handlePublish(e.target.value)}>
-                                <MenuItem value={false}>
-                                    Не Опублікований
-                                </MenuItem>
-                                <MenuItem value={true}>
-                                    Опублікований
-                                </MenuItem>
-                            </Select>
-                        </ListItem>
-                        <ListItem>
-                            <Stack display={'flex'} flexDirection={'row'} gap={1}>
-                                <TextField sx={{width: 140}} value={newName} onChange={e => setNewName(e.target.value)}
-                                           label='New Name'/>
-                                <Button variant={'contained'} onClick={handleRename}>Rename</Button>
-                            </Stack>
-                        </ListItem>
                         <ListItem>
                             <Button sx={{height: 54}} color={'error'} variant={'contained'}
                                     onClick={handleDelete}>Delete</Button>
+                        </ListItem>
+                        <ListItem>
+                            <Stack>
+                                <Typography fontSize={10} color={'grey'}>Select New League</Typography>
+                                <Select sx={{width: "120px"}} onChange={handleChangeLeague} defaultValue={''}>
+                                    {
+                                        leagues?.map(league =>
+                                            <MenuItem key={league._id} value={league._id}>{league.name}</MenuItem>
+                                        )
+                                    }
+                                </Select>
+
+                            </Stack>
                         </ListItem>
 
 
@@ -126,7 +124,7 @@ const Channel = () => {
                 <Table sx={{minWidth: 150}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell> <Checkbox checked={selectedChannel?.length === cities?.length}
+                            <TableCell> <Checkbox checked={selectedChannel?.length === channels?.length}
                                                   onClick={() => selectAllChannel()}/></TableCell>
                             <TableCell align="center">Channel ID</TableCell>
                             <TableCell align="center">Number</TableCell>
@@ -136,7 +134,7 @@ const Channel = () => {
                     </TableHead>
                     <TableBody>
                         {
-                            cities.map(channel => <ChannelRow channel={channel}
+                            channels.map(channel => <ChannelRow channel={channel}
                                                               isSelected={selectedChannel.includes(channel._id)}
                                                               key={channel?.name}/>)
 
@@ -145,10 +143,43 @@ const Channel = () => {
                 </Table>
             </TableContainer>
             <Stack display={'flex'} gap={1} flexDirection={'row'} margin={1} alignItems={'flex-end'}>
-                <TextField label={'Name'} onChange={e => setName(e.target.value)}/>
+                <ListItem>
+                    <Stack>
+                        <Typography fontSize={10} color={'grey'}>Select New League</Typography>
+                        <Select sx={{width: "120px"}} onChange={e=> setLeagueId(e.target.value)} defaultValue={''}>
+                            {
+                                leagues?.map(league =>
+                                    <MenuItem key={league._id} value={league._id}>{league.name}</MenuItem>
+                                )
+                            }
+                        </Select>
 
+                    </Stack>
+                </ListItem>
+                <ListItem>
+                    <Stack>
+                        <Typography fontSize={10} color={'grey'}>Channel URL</Typography>
+                        <TextField sx={{width: 140}} value={url} onChange={e => setUrl(e.target.value)}/>
+                    </Stack>
+                </ListItem>
+                <ListItem>
+                    <Stack>
+                        <Typography fontSize={10} color={'grey'}>Channel ID</Typography>
+                        <TextField sx={{width: 140}} value={channelId} onChange={e => setChannelId(e.target.value)}/>
+                    </Stack>
+                </ListItem>
+                <ListItem>
+                    <Stack>
+                        <Typography fontSize={10} color={'grey'}>Number</Typography>
+                        <TextField type={'number'} sx={{width: 140}} value={number} onChange={e => setNumber(e.target.value)}/>
+                    </Stack>
+                </ListItem>
+                <ListItem>
+                    <Button variant={'contained'} onClick={handleCreate} height={'80%'}>
+                        Create
+                    </Button>
+                </ListItem>
 
-                <Button sx={{height: '78%'}} variant={'contained'} onClick={handleCreate}>Create</Button>
             </Stack>
         </Stack>
     );
