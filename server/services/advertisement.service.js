@@ -35,7 +35,7 @@ class advertisementController{
     }
     async getById(advertisementId){
         const advertisement = await Advertisement.findById(advertisementId)
-
+        console.log(advertisementId, ' : ', {advertisement})
         return advertisement
     }
 
