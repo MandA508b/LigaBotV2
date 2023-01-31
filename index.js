@@ -95,7 +95,7 @@ bot.hears('Мої оголошення', async (ctx)=> {
     }
 })
 
-bot.hears('Мої оголошення', async (ctx)=> {
+bot.hears('Додати оголошення', async (ctx)=> {
     const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
     if(userAuth.isBlocked){
         return ctx.reply('Вас заблоковано')
