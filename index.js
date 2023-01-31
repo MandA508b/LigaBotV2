@@ -79,12 +79,7 @@ bot.hears('Мої оголошення', async (ctx)=> {
             `Сума: ${advertisements[advertisementsKey].total}\n` +
             `Частин: ${advertisements[advertisementsKey].rate}\n` +
             `Ставка: ${advertisements[advertisementsKey].part}%\n` +
-            `Дійсне до: ${advertisements[advertisementsKey].deadline.toLocaleDateString("en-US", {
-                day: "numeric",
-                weekday: "short",
-                hour: "numeric",
-                minute: "numeric"
-            })}\n` +
+            `Дійсне до: ${advertisements[advertisementsKey].deadline}\n` +
             `${advertisements[advertisementsKey].extraInfo}`,
             Markup.inlineKeyboard([
                 Markup.button.callback('Редагувати', 'redact'),
