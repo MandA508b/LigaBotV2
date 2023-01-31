@@ -73,7 +73,7 @@ const Channel = () => {
             const channel = channels.find(channel => channel._id === id)
             console.log({channelId: channel._id, data: {...channel, leagueId: e.target.value}})
             const res = await updateChannel({channelId: channel._id, data: {...channel, leagueId: e.target.value}})
-            //refreshPage()
+            refreshPage()
             console.log(res)
         })
     }
@@ -86,7 +86,7 @@ const Channel = () => {
     }
 
 
-    if (!isSuccess || isLoading)
+    if (!isSuccess || isLoading || isLeaguesLoading || !isLeaguesSuccess)
         return <Typography textAlign={'center'}>Loading</Typography>
 
     return (
