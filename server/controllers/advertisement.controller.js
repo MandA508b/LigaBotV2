@@ -70,6 +70,16 @@ class advertisementController{
         }
     }
 
+    async findById(req, res, next){
+        try{
+            const advertisement = await advertisementService.getById()
+
+            return res.json({advertisement})
+        }catch (e) {
+            next(e)
+        }
+    }
+
 }
 
 module.exports = new advertisementController()

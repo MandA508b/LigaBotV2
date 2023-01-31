@@ -33,6 +33,10 @@ class advertisementController{
 
         return advertisements
     }
+    async getById(id){
+        const advertisement = await Advertisement.findById(id)
+        return advertisement
+    }
 
 }
 

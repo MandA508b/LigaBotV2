@@ -24,8 +24,6 @@ bot.start(async (ctx) => {
 
 })
 
-
-
 bot.command('menu', async (ctx) => {
     const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
     if(userAuth.isBlocked){
