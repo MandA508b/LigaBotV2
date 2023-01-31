@@ -5,7 +5,7 @@ class leagueController{
     async create(req, res, next){//TODO: add сhannelId
         try{
             const {name, level} = req.body
-            if(!name || !level ){
+            if(!name || !level){
                 return next(ApiError.badRequest('!name || !level'))
             }
             const league = await leagueService.create(name, level)
