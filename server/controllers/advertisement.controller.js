@@ -1,7 +1,7 @@
 const advertisementService  = require('../services/advertisement.service')
 const cityService  = require('../services/city.service')
 const ApiError = require('../errors/api.error')
-const Leage = require('../../models/league.model')
+const Channel = require('../../models/chennal.model')
 const {Telegraf} = require("telegraf");
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 
@@ -16,9 +16,9 @@ class advertisementController{
             const advertisement = await advertisementService.create(userId,leagueId,type,cityId,total,part,rate,deadline,extraInfo)
 
             const cityName = await cityService.findById(advertisement.cityId)
-            const channelId = await Leage.findById(leagueId)
+            const channel = await Channel.findById(leagueId)
 
-            bot.telegram.sendMessage(channelId, `Оголошення №${advertisement.number}\n`+
+            bot.telegram.sendMessage(channel.channelId, `Оголошення №${advertisement.number}\n`+
             `${advertisement.type}: ${cityName.name} USDT trc20\n`+
             `Сума: ${advertisement.total}\n`+
             `Частин: ${advertisement.rate}\n`+
