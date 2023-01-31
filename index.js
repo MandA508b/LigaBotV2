@@ -74,7 +74,7 @@ bot.hears('Мої оголошення', async (ctx)=> {
         const cityId = advertisements[advertisementsKey].cityId
         const cityName = await cityService.findById(cityId)
 
-        bot.telegram.sendMessage(ctx.update.message.from.id, `Оголошення №${advertisements[advertisementsKey].number}\n` +
+        bot.telegram.sendMessage(ctx.update.message.from.id, `Оголошення №${advertisements[advertisementsKey].number }\n` +
             `${advertisements[advertisementsKey].type}: ${cityName.name} USDT trc20\n` +
             `Сума: ${advertisements[advertisementsKey].total}\n` +
             `Частин: ${advertisements[advertisementsKey].rate}\n` +
@@ -88,6 +88,12 @@ bot.hears('Мої оголошення', async (ctx)=> {
     }
 })
 
+bot.action('delete', async (ctx) => {
+    const number = Number(ctx.update.callback_query.message.text.split(' ')[1].split('\n')[0].slice(1))
+    await advertisementService.deleteByNumber(number)
+    ctx.telegram.deleteMessage(ctx.update.callback_query.message.chat.id, ctx.update.callback_query.message.message_id)
+})
+
 bot.hears('Додати оголошення', async (ctx)=> {
     const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
     if(userAuth.isBlocked){
@@ -98,6 +104,8 @@ bot.hears('Додати оголошення', async (ctx)=> {
         Markup.inlineKeyboard([
             Markup.button.webApp('Заповнити', 'https://heroic-profiterole-cc695c.netlify.app')
         ]))
+
+
 })
 
 startServer()
