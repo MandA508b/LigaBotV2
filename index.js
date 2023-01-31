@@ -34,10 +34,11 @@ bot.command('menu', async (ctx) => {
 
     const accessToMenu = await userController.accessToMenu(ctx.update.message.from.id)
 
+
     if(accessToMenu){
         return await ctx.reply('menu:', Markup
             .keyboard([
-                [Markup.button.webApp('Додати Оголошення', 'https://heroic-profiterole-cc695c.netlify.app'), 'Мої оголошення'],
+                ['Додати оголошення', 'Мої оголошення'],
                 ['Канали']
             ])
             .oneTime()
@@ -93,5 +94,18 @@ bot.hears('Мої оголошення', async (ctx)=> {
             ]))
     }
 })
+
+bot.hears('Мої оголошення', async (ctx)=> {
+    const userAuth =  await userService.getUserByTelegramID(ctx.update.message.from.id)
+    if(userAuth.isBlocked){
+        return ctx.reply('Вас заблоковано')
+    }
+
+    ctx.reply('Заповніть форму: ',
+        Markup.inlineKeyboard([
+            Markup.button.webApp('Заповнити', 'https://heroic-profiterole-cc695c.netlify.app')
+        ]))
+})
+
 startServer()
 bot.launch()
