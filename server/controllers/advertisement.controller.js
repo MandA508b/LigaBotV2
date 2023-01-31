@@ -16,7 +16,7 @@ class advertisementController{
             const advertisement = await advertisementService.create(userId,leagueId,type,cityId,total,part,rate,deadline,extraInfo)
 
             const cityName = await cityService.findById(advertisement.cityId)
-            const channel = await Channel.findById(leagueId)
+            const channel = await Channel.findOne({leagueId})
 
             bot.telegram.sendMessage(channel.channelId, `Оголошення №${advertisement.number}\n`+
             `${advertisement.type}: ${cityName.name} USDT trc20\n`+
