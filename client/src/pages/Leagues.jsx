@@ -31,8 +31,6 @@ const Leagues = () => {
     const [level, setLevel] = useState("")
     const [newLevel, setNewLevel] = useState("")
     const [newName, setNewName] = useState('')
-    const [channelId, setChannelId] = useState('')
-    const [newChannelId, setNewChannelId] = useState('')
     const {data, isSuccess, isLoading} = useFetchAllLeaguesQuery()
     const dispatch = useDispatch()
     const leagues = useSelector(selectCurrentLeagues)
@@ -64,7 +62,7 @@ const Leagues = () => {
         })
     }
     const handleCreate = async () => {
-        if (!!name.length && !!level.length && !!channelId) await createLeague({name, level,channelId})
+        if (!!name.length && !!level.length) await createLeague({name, level})
     }
     const handleChangeLevel = async () => {
         if (!!newLevel.length) {

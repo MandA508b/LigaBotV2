@@ -79,7 +79,7 @@ const Channel = () => {
     }
     const handleCreate = async () => {
         console.log({URL: url, channelId, number, leagueId})
-        if (!!url.length && !!channelId.length && typeof number === 'number' && !!leagueId.length) {
+        if (!!url.length && !!channelId.length  && !!leagueId.length) {
             await createChannel({URL: url, channelId, number, leagueId})
             console.log(true)
         }
@@ -136,7 +136,7 @@ const Channel = () => {
                         {
                             channels.map(channel => <ChannelRow channel={channel}
                                                               isSelected={selectedChannel.includes(channel._id)}
-                                                              key={channel?.name}/>)
+                                                              key={channel?._id}/>)
 
                         }
                     </TableBody>
