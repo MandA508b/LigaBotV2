@@ -1,4 +1,5 @@
 const Advertisement = require('../../models/advertisement.model')
+const {configureStore} = require("@reduxjs/toolkit");
 
 class advertisementController{
 
@@ -29,13 +30,20 @@ class advertisementController{
     }
 
     async getAllByTelegramId(telegramId){
+        console.log(telegramId)
         const advertisements = await Advertisement.find({telegramId})
 
         return advertisements
     }
     async getById(advertisementId){
         const advertisement = await Advertisement.findById(advertisementId)
-        // console.log(advertisementId, ' : ', {advertisement})
+
+        return advertisement
+    }
+
+    async deleteByNumber(number){
+        const advertisement = await Advertisement.deleteOne({number})
+
         return advertisement
     }
 
