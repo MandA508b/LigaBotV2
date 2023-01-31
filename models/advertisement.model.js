@@ -38,7 +38,7 @@ const schema = new db.Schema({
         required: true
     },
     deadline:{
-        type: Date,
+        type: String,
         required: true
     },
     extraInfo: {
