@@ -1,4 +1,5 @@
 const Advertisement = require('../../models/advertisement.model')
+const userService = require('../services/user.service')
 
 class advertisementController{
 
@@ -29,14 +30,19 @@ class advertisementController{
     }
 
     async getAllByTelegramId(telegramId){
-        const advertisements = await Advertisement.find({telegramId})
+        const user = await userService.getUserByTelegramID(telegramId)
+        const advertisements = await Advertisement.find({userId: user._id})
 
         return advertisements
     }
     async getById(advertisementId){
         const advertisement = await Advertisement.findById(advertisementId)
-        // console.log(advertisementId, ' : ', {advertisement})
+
         return advertisement
+    }
+
+    async deleteByNumber(number){
+        await Advertisement.deleteOne({number})
     }
 
 }
