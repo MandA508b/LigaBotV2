@@ -6,5 +6,6 @@ const authMiddleware = require('../middleware/authMiddleware')
 router.post('/create',authMiddleware, channelController.create)
 router.delete('/delete', authMiddleware, channelController.delete)
 router.put('/redact', authMiddleware, channelController.redact)
-router.get('/findAll', channelController.findAll)
+router.put('/getByLeagueId', authMiddleware, channelController.getByLeagueId)
+router.get('/findAll', authMiddleware, channelController.findAll)
 module.exports = router

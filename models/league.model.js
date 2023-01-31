@@ -12,10 +12,6 @@ const schema = new db.Schema({
     level: {
         type: String,
         required: true
-    },
-    channelId: {
-        type: String,
-        default: "12345"
     }
 })
 

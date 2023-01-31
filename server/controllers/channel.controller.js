@@ -1,5 +1,6 @@
 const channelService  = require('../services/channel.service')
 const ApiError = require('../errors/api.error')
+const Channel = require("../../models/chennal.model");
 
 class channelController{
     async create(req, res, next){
@@ -49,6 +50,20 @@ class channelController{
             const channels = await channelService.findAll()
 
             return res.json({channels})
+        }catch (e) {
+            next(e)
+        }
+    }
+
+    async getByLeagueId(req, res, next){
+        try{
+            const {leagueId} = req.body
+            if(!leagueId){
+                return next(ApiError.badRequest('!leagueId'))
+            }
+            const channel = await channelService.getByLeagueId(leagueId)
+
+            return res.json({channel})
         }catch (e) {
             next(e)
         }
