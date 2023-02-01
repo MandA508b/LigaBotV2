@@ -81,15 +81,6 @@ bot.hears('Мої оголошення', async (ctx)=> {
                 Markup.button.webApp('Редагувати', `https://heroic-profiterole-cc695c.netlify.app/redact/${advertisements[advertisementsKey]._id}`),
                 Markup.button.callback('Скасувати', 'delete')
             ]))
-        if(ctx?.web_app?.data){
-            try{
-                const data = JSON.parse(ctx?.web_app?.data)
-                console.log('111')
-                await bot.telegram.sendMessage(ctx.update.message.from.id, "111")
-            }catch (e) {
-                console.log('e')
-            }
-        }
     }
 })
 
