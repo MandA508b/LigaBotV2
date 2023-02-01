@@ -70,7 +70,7 @@ bot.hears('Мої оголошення', async (ctx)=> {
         const cityId = advertisements[advertisementsKey].cityId
         const cityName = await cityService.findById(cityId)
 
-        bot.telegram.sendMessage(ctx.update.message.from.id, `Оголошення №${advertisements[advertisementsKey].number }\n` +
+        await bot.telegram.sendMessage(ctx.update.message.from.id, `Оголошення №${advertisements[advertisementsKey].number }\n` +
             `${advertisements[advertisementsKey].type}: ${cityName.name} USDT trc20\n` +
             `Сума: ${advertisements[advertisementsKey].total}\n` +
             `Частин: ${advertisements[advertisementsKey].rate}\n` +
@@ -81,13 +81,22 @@ bot.hears('Мої оголошення', async (ctx)=> {
                 Markup.button.webApp('Редагувати', `https://heroic-profiterole-cc695c.netlify.app/redact/${advertisements[advertisementsKey]._id}`),
                 Markup.button.callback('Скасувати', 'delete')
             ]))
+        if(ctx?.web_app?.data){
+            try{
+                const data = JSON.parse(ctx?.web_app?.data)
+
+                await bot.telegram.sendMessage(ctx.update.message.from.id, "111")
+            }catch (e) {
+                console.log(e)
+            }
+        }
     }
 })
 
 bot.action('delete', async (ctx) => {
     const number = Number(ctx.update.callback_query.message.text.split(' ')[1].split('\n')[0].slice(1))
     await advertisementService.deleteByNumber(number)
-    ctx.telegram.deleteMessage(ctx.update.callback_query.message.chat.id, ctx.update.callback_query.message.message_id)
+    await ctx.telegram.deleteMessage(ctx.update.callback_query.message.chat.id, ctx.update.callback_query.message.message_id)
 })
 
 bot.hears('Додати оголошення', async (ctx)=> {
@@ -103,6 +112,8 @@ bot.hears('Додати оголошення', async (ctx)=> {
 
 
 })
+
+
 
 startServer()
 bot.launch()
