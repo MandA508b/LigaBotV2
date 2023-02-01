@@ -17,7 +17,7 @@ app.use(errorMiddleware)
 
 async function start(){
     try{
-        app.listen(PORT,'0.0.0.0', () => {
+        app.listen(PORT, () => {
             console.log(`Server started on PORT: ${PORT}`)
         })
     }catch (e){
