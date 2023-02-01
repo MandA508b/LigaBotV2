@@ -84,10 +84,10 @@ bot.hears('Мої оголошення', async (ctx)=> {
         if(ctx?.web_app?.data){
             try{
                 const data = JSON.parse(ctx?.web_app?.data)
-
+                console.log('111')
                 await bot.telegram.sendMessage(ctx.update.message.from.id, "111")
             }catch (e) {
-                console.log(e)
+                console.log('e')
             }
         }
     }

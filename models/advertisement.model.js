@@ -44,6 +44,7 @@ const schema = new db.Schema({
     extraInfo: {
         type: String
     },
+
     date: {
         type: Date,
         default: Date.now()
